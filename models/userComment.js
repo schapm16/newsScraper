@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 
 var userCommentSchema = new Schema({
     comment: String,
-    articles: [{
+    article: [{
         type: Schema.Types.ObjectId,
-        ref: 'userArticles'
+        ref: 'Article'
     }]
 });
 
