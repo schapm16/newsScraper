@@ -6,7 +6,11 @@ var ArticleSchema = new Schema({
     summary: String,
     articleURL: String,
     imageURL: String,
-    saved: Boolean
+    saved: Boolean,
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'userComment'
+    }]
     
 });
 
