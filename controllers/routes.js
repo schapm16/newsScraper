@@ -1,9 +1,5 @@
-var request = require('request');
-const cheerio = require('cheerio');
-
-function pageElements() {
-  
-}
+var scrape = require('./scrape.js');
+var db = require('../models/index.js');
 
 function routes(app) {
 
@@ -11,40 +7,23 @@ function routes(app) {
     resp.send('Hello World');
   });
 
-  app.get('/scrape', function(req, resp) {
+  app.get('/scrape', function(req, res) {
     console.log('Scrape Requested');
-
-    request('http://www.charlotteobserver.com/latest-news/', function(error, response, body) {
-      // var arr = [];  // TESTING ONLY
-
-      var $ = cheerio.load(body);
-      $('#story-list-1 article, #story-list-2 article, #story-list-3 article').each(function(index, element) {
-        var title = $(this).find('.title a').text().trim();
-        var summary = $(this).text();
-        var articleURL = $(this).find('.title a').attr('href');
-        var imageURL = $(this).find('img').data('proxy-image');
-        
-        if (imageURL) {
-          imageURL = imageURL.replace('ALTERNATES/LANDSCAPE_80', 'alternates/LANDSCAPE_320');
-        }
-        
-        // TESTING ONLY
-        // arr.push({ 
-        //   title: title,
-        //   summary: summary,
-        //   articleURL: articleURL,
-        //   imageURL: imageURL
-        // }); 
-
+    scrape(function(articleContents) {
+      db.Article.create(articleContents, function(err){
+        if (err) throw err;
+      });
+    }, function() {
+      db.Article.find({}, function(err, data){
+      res.json(data);  
       });
       
-      // Testing
-      // resp.json(arr);
     });
+    
   });
 
-  // app.post('/save-article')
-
+  //  Future Routes
+  // app.get('/save-article')
   // app.post('/add-note')
 }
 
