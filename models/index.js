@@ -1,4 +1,4 @@
 module.exports = {
-    userArticles: require('./userArticles.js'),
-    userComments: require('./userComments.js')
+    userArticle: require('./userArticle.js'),
+    userComment: require('./userComment.js')
 };
