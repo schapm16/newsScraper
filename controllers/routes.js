@@ -5,6 +5,10 @@ function routes(app) {
 
   app.get('/', function(req, resp) {
     resp.send('Hello World');
+    db.Article.remove({saved: false}, function(err) {
+      if (err) throw err;
+      console.log ("Unsaved Articles Removed");
+    });
   });
 
   app.get('/scrape', function(req, res) {
@@ -19,9 +23,16 @@ function routes(app) {
         console.log('Scrape Complete - Results Sent');
         res.json(data);
       });
-
     });
-
+  });
+  
+  app.get('/article', function(req, res) {
+    console.log('Saved Articles Request');
+    db.Article.find({saved: true}).populate('comments').exec(function(err, data) {
+      if (err) throw err;
+      console.log("Saved Articles Sent");
+      res.json(data);
+    });
   });
 
   app.put('/article/save/:articleId', function(req, res) {
@@ -63,10 +74,12 @@ function routes(app) {
   
   app.delete('/comment/delete/:commentId', function(req, res) {
     var commentId = req.params.commentId;
+    
     db.userComment.findOneAndRemove({_id: commentId}, function(err) {
       if (err) throw err;
       console.log('Comment Deleted');
     });
+    
     db.Article.findOneAndUpdate({comments: commentId}, {$pull: {comments: commentId}}, {new: true}, function(err, data) {
       if (err) throw err;
       console.log('Reference To Comment Deleted From Article');
