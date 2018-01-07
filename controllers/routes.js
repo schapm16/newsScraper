@@ -15,6 +15,7 @@ function routes(app) {
       });
     }, function() {
       db.Article.find({}, function(err, data){
+      console.log('Scrape Complete - Results Sent');
       res.json(data);  
       });
       
@@ -22,8 +23,14 @@ function routes(app) {
     
   });
 
+  app.put('/save-article/:articleId', function(req,res) {
+    db.Article.findOneAndUpdate({_id: req.params.articleId}, {saved: true}, function(err, data) {
+      console.log('Article Saved');
+      res.json(data);
+    });
+  });
+  
   //  Future Routes
-  // app.get('/save-article')
   // app.post('/add-note')
 }
 
