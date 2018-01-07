@@ -1,7 +1,7 @@
 var request = require('request');
 const cheerio = require('cheerio');
 
-module.exports = function(cb) {
+module.exports = function(cb, cbb) {
   request('http://www.charlotteobserver.com/latest-news/', function(error, response, body) {
 
     var $ = cheerio.load(body);
@@ -22,5 +22,7 @@ module.exports = function(cb) {
         imageURL: imageURL
       });
     });
+    
+    cbb();
   });
 };
