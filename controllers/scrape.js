@@ -23,6 +23,6 @@ module.exports = function(cb, cbb) {
       });
     });
     
-    cbb();
+    setTimeout(cbb, 3000);
   });
 };
