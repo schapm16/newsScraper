@@ -10,7 +10,6 @@ module.exports = function(cb, cbb) {
       var summary = $(this).text().trim().split(/\n+/)[2];
       var articleURL = $(this).find('.title a').attr('href');
       var imageURL = $(this).find('img').data('proxy-image');
-      console.log(summary);
       if (imageURL) {
         imageURL = imageURL.replace('ALTERNATES/LANDSCAPE_80', 'alternates/LANDSCAPE_320');
       }
