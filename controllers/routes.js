@@ -3,12 +3,13 @@ var db = require('../models/index.js');
 
 function routes(app) {
 
-  app.get('/', function(req, resp) {
-    resp.send('Hello World');
+  app.get('/', function(req, res) {
     db.Article.remove({saved: false}, function(err) {
       if (err) throw err;
       console.log ("Unsaved Articles Removed");
     });
+    
+    res.render('home', {styleSheet: '/css/home.css'});
   });
 
   app.get('/scrape', function(req, res) {
