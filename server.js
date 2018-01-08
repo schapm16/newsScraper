@@ -8,6 +8,12 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Express-Handlebars
+var express = require('express');
+var exphbs  = require('express-handlebars');
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
 // Mongoose Connection To MongoDB
 var mongoose = require('mongoose');
 var MONGODB_URI ='mongodb://localhost/mongoHeadlines';
