@@ -4,12 +4,12 @@ var db = require('../models/index.js');
 function routes(app) {
 
   app.get('/', function(req, res) {
-    db.Article.remove({saved: false}, function(err) {
+    db.Article.remove({ saved: false }, function(err) {
       if (err) throw err;
-      console.log ("Unsaved Articles Removed");
+      console.log("Unsaved Articles Removed");
     });
-    
-    res.render('home', {styleSheet: '/css/home.css'});
+
+    res.render('home', { styleSheet: '/css/home.css' });
   });
 
   app.get('/scrape', function(req, res) {
@@ -19,17 +19,23 @@ function routes(app) {
         if (err) throw err;
       });
     }, function() {
-      db.Article.find({}, function(err, data) {
-        if (err) throw err;
-        console.log('Scrape Complete - Results Sent');
-        res.json(data);
+      res.redirect('/article');
+    });
+  });
+
+  app.get('/article', function(req, res) {
+    db.Article.find({}, function(err, data) {
+      if (err) throw err;
+      res.render('allArticles', {
+        article: data,
+        styleSheet: '/css/allArticles.css'
       });
     });
   });
-  
-  app.get('/article', function(req, res) {
+
+  app.get('/article/saved', function(req, res) {
     console.log('Saved Articles Request');
-    db.Article.find({saved: true}).populate('comments').exec(function(err, data) {
+    db.Article.find({ saved: true }).populate('comments').exec(function(err, data) {
       if (err) throw err;
       console.log("Saved Articles Sent");
       res.json(data);
@@ -56,7 +62,7 @@ function routes(app) {
     db.userComment.create({ comment: req.body.comment }, function(err, data) {
       if (err) throw err;
       console.log('New Comment');
-      db.Article.findOneAndUpdate({ _id: req.body.articleId }, { $push: { comments: data._id } }, {new: true}, function(err, data) {
+      db.Article.findOneAndUpdate({ _id: req.body.articleId }, { $push: { comments: data._id } }, { new: true }, function(err, data) {
         if (err) throw err;
         console.log('Comment Saved To Article');
         res.json(data);
@@ -64,24 +70,24 @@ function routes(app) {
     });
 
   });
-  
+
   app.put('/comment/edit', function(req, res) {
-    db.userComment.findOneAndUpdate({_id: req.body.commentId}, {$set: {comment: req.body.comment}}, {new: true}, function(err, data) {
+    db.userComment.findOneAndUpdate({ _id: req.body.commentId }, { $set: { comment: req.body.comment } }, { new: true }, function(err, data) {
       if (err) throw err;
       console.log('Comment Edited');
       res.json(data);
     });
   });
-  
+
   app.delete('/comment/delete/:commentId', function(req, res) {
     var commentId = req.params.commentId;
-    
-    db.userComment.findOneAndRemove({_id: commentId}, function(err) {
+
+    db.userComment.findOneAndRemove({ _id: commentId }, function(err) {
       if (err) throw err;
       console.log('Comment Deleted');
     });
-    
-    db.Article.findOneAndUpdate({comments: commentId}, {$pull: {comments: commentId}}, {new: true}, function(err, data) {
+
+    db.Article.findOneAndUpdate({ comments: commentId }, { $pull: { comments: commentId } }, { new: true }, function(err, data) {
       if (err) throw err;
       console.log('Reference To Comment Deleted From Article');
       res.json(data);
