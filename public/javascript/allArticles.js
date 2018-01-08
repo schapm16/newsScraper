@@ -18,8 +18,7 @@ $(document).on('click', '[data-saved="false"]', function() {
     }
   }).then(function() {
     clicked.text('Saved!');
-    clicked.removeClass('saveButton');
-    clicked.addClass('deleteButton');
+    clicked.attr('data-saved', 'true');
   });
 });
 
@@ -33,7 +32,6 @@ $(document).on('click', '[data-saved="true"]', function() {
     }
   }).then(function() {
     clicked.text('Save');
-    clicked.removeClass('deleteButton');
-    clicked.addClass('saveButton');
+    clicked.attr('data-saved', 'false');
   });
 });
