@@ -4,7 +4,7 @@
       <a class="navbar-brand">News Snatch</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a>Saved Articles</a></li>
+      <li><a href="/article/saved">Saved Articles</a></li>
     </ul>
   </div>
 </nav>
@@ -19,6 +19,7 @@
       <div class="media-body">
         <h4 class="media-heading"><a href="{{articleURL}}">{{title}}</a></h4>
         {{summary}}
+        <button class="saveButton btn btn-default btn-sm" data-id="{{_id}}">Save</button>
       </div>
     </div>
     {{/each}}

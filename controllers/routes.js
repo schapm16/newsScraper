@@ -9,7 +9,11 @@ function routes(app) {
       console.log("Unsaved Articles Removed");
     });
 
-    res.render('home', { styleSheet: '/css/home.css' });
+    res.render('home', { 
+      styleSheet: '/css/home.css',
+      script: '/javascript/home.js'
+      
+    });
   });
 
   app.get('/scrape', function(req, res) {
@@ -28,7 +32,8 @@ function routes(app) {
       if (err) throw err;
       res.render('allArticles', {
         article: data,
-        styleSheet: '/css/allArticles.css'
+        styleSheet: '/css/allArticles.css',
+        script: '/javascript/allArticles.js'
       });
     });
   });
@@ -42,19 +47,19 @@ function routes(app) {
     });
   });
 
-  app.put('/article/save/:articleId', function(req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.articleId }, { saved: true }, { new: true }, function(err, data) {
+  app.put('/article/save', function(req, res) {
+    db.Article.findOneAndUpdate({ _id: req.body.articleId }, { saved: true }, { new: true }, function(err, data) {
       if (err) throw err;
       console.log('Article Saved');
-      res.json(data);
+      res.sendStatus(200);
     });
   });
 
-  app.put('/article/delete/:articleId', function(req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.articleId }, { saved: false }, { new: true }, function(err, data) {
+  app.put('/article/delete', function(req, res) {
+    db.Article.findOneAndUpdate({ _id: req.body.articleId }, { saved: false }, { new: true }, function(err, data) {
       if (err) throw err;
       console.log('Article Deleted');
-      res.json(data);
+      res.sendStatus(200);
     });
   });
 
@@ -79,8 +84,8 @@ function routes(app) {
     });
   });
 
-  app.delete('/comment/delete/:commentId', function(req, res) {
-    var commentId = req.params.commentId;
+  app.delete('/comment/delete', function(req, res) {
+    var commentId = req.body.commentId;
 
     db.userComment.findOneAndRemove({ _id: commentId }, function(err) {
       if (err) throw err;
