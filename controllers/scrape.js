@@ -7,10 +7,10 @@ module.exports = function(cb, cbb) {
     var $ = cheerio.load(body);
     $('#story-list-1 article, #story-list-2 article, #story-list-3 article').each(function(index, element) {
       var title = $(this).find('.title a').text().trim();
-      var summary = $(this).text();
+      var summary = $(this).text().trim().split(/\n+/)[2];
       var articleURL = $(this).find('.title a').attr('href');
       var imageURL = $(this).find('img').data('proxy-image');
-
+      console.log(summary);
       if (imageURL) {
         imageURL = imageURL.replace('ALTERNATES/LANDSCAPE_80', 'alternates/LANDSCAPE_320');
       }
