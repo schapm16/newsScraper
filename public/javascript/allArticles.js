@@ -1,5 +1,14 @@
 /*global $*/
-$(document).on('click', '.saveButton', function() {
+$('.media-body button').each(function(index, button){
+  console.log('save check');
+  console.log($(button).data('saved'));
+  if ($(button).data('saved') === true) {
+    console.log('already saved');
+    $(button).text('Saved!');
+  }
+});
+
+$(document).on('click', '[data-saved="false"]', function() {
   var clicked = $(this);
   $.ajax({
     type: 'PUT',
@@ -14,7 +23,7 @@ $(document).on('click', '.saveButton', function() {
   });
 });
 
-$(document).on('click', '.deleteButton', function() {
+$(document).on('click', '[data-saved="true"]', function() {
   var clicked = $(this);
   $.ajax({
     type: 'PUT',
