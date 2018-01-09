@@ -77,7 +77,6 @@ function routes(app) {
     db.Article.find({ _id: req.params.articleId }).populate('comments').exec(function(err, data) {
       if (err) throw err;
       console.log("Article Comments Sent");
-      console.log(data);
       res.json(data);
     });
   });
