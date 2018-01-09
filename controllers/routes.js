@@ -9,10 +9,10 @@ function routes(app) {
       console.log("Unsaved Articles Removed");
     });
 
-    res.render('home', { 
+    res.render('home', {
       styleSheet: '/css/home.css',
       script: '/javascript/home.js'
-      
+
     });
   });
 
@@ -24,7 +24,7 @@ function routes(app) {
           if (err.message) console.log(err.message);
           else throw err;
         }
-        
+
         if (articleIndex === lastArticleIndex) {
           res.redirect('/article');
         }
@@ -52,7 +52,7 @@ function routes(app) {
         article: data,
         styleSheet: '/css/savedArticles.css',
         script: '/javascript/savedArticles.js'
-        });
+      });
     });
   });
 
@@ -71,7 +71,17 @@ function routes(app) {
       res.sendStatus(200);
     });
   });
-  
+
+  app.get('/comment/:articleId', function(req, res) {
+    console.log('Article Comments Request ' + req.params.articleId);
+    db.Article.find({ _id: req.params.articleId }).populate('comments').exec(function(err, data) {
+      if (err) throw err;
+      console.log("Article Comments Sent");
+      console.log(data);
+      res.json(data);
+    });
+  });
+
   app.post('/comment/add', function(req, res) {
     db.userComment.create({ comment: req.body.comment }, function(err, data) {
       if (err) throw err;

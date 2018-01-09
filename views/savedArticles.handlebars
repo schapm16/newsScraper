@@ -16,27 +16,35 @@
   </div>
 </div>
 
+<div id="modalNotes" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
 
-
-<div id="notesModal" class="modal fade">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  </div>
-
-  <div class="modal-body">
-    <div class="media">
-      <div class="media-left">
-        <img id="modalArticleImage" class="media-object" src="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="modal-title">
+          <div id="modalArticleId" style="display:none" data-id=""></div>
+          <div class="media">
+            <div class="media-left">
+              <img id="modalArticleImage" class="media-object" src="">
+            </div>
+            <div class="media-body">
+              <h4 id="modalArticleTitle" class="media-heading"></h4>
+              <p id="modalArticleSummary"></p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="media-body">
-        <h4 id="modalArticleTitle" class="media-heading"></h4>
-        <p id="modalArticleSummary"></p>
+
+      <div class="modal-body">
+        <button id="modalAddComment" class="btn btn-default btn-block">Add a Comment</button>
+        <div id="modalAddCommentForm"></div>
+        <div id="modalComments"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-  </div>
-  
-  <div id="modalComments">
-    
-    
   </div>
 </div>

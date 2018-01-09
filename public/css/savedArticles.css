@@ -28,3 +28,7 @@ a, a:hover, a:active {
   max-height: 80vh;
   overflow-y: auto;
 }
+
+#modalComments p {
+  margin-top: 30px;
+}
