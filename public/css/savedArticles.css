@@ -32,3 +32,7 @@ a, a:hover, a:active {
 #modalComments p {
   margin-top: 30px;
 }
+
+#editForm {
+  margin-top: 20px;
+}

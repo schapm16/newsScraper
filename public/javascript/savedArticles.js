@@ -44,7 +44,7 @@ $(document).on('click', '.notesButton', function() {
     $('#modalArticleImage').attr('src', data[0].imageURL);
     $('#modalArticleTitle').text(data[0].title);
     $('#modalArticleSummary').text(data[0].summary);
-    
+
     $('#modalComments').empty();
     for (var i = 0; i < data[0].comments.length; i++) {
       $('#modalComments').prepend('<button class="modalDeleteButton btn btn-default" data-commentId=' + data[0].comments[i]._id + '>Delete</button>');
@@ -54,9 +54,7 @@ $(document).on('click', '.notesButton', function() {
 
     $('#modalNotes').modal('show');
   });
-
 });
-
 
 $('#modalAddComment').click(function() {
   if ($('#modalAddCommentForm').children().length) {
@@ -88,14 +86,51 @@ $(document).on('click', '#modalSubmitNewComment', function() {
   $('#modalAddCommentForm').empty();
 });
 
+$(document).on('click', '.modalEditButton', function() {
+  var commentId = $(this).attr('data-commentId');
+  if ($('#editForm').length) {
+    $('#editForm').remove();
+    $('p[data-commentId=' + commentId + ']').css('display', 'block');
+    $('.modalEditButton[data-commentId=' + commentId + ']').text('Edit');
+    $('.modalDeleteButton[data-commentId=' + commentId + ']').css('display', 'initial');
+  }
+  else {
+    $('<div id=editForm><textarea id=modalEdit class=form-control data-commentId=' + commentId + '></textarea></div>').insertAfter($('p[data-commentId=' + commentId + ']'));
+    $('#modalEdit').val($('p[data-commentId=' + commentId + ']').text());
+    $('p[data-commentId=' + commentId + ']').css('display', 'none');
+    $('.modalEditButton[data-commentId=' + commentId + ']').text('Cancel');
+    $('.modalDeleteButton[data-commentId=' + commentId + ']').css('display', 'none');
+    $('#editForm').append($('<button id="modalSaveButton" class="btn btn-default">Save Edit</button>'));
+  }
+});
+
+$(document).on('click', '#modalSaveButton', function() {
+  var commentId = $('#editForm textarea').attr('data-commentId');
+  var comment = $('#editForm textarea').val().trim();
+  $.ajax({
+    method: 'PUT',
+    url: '/comment/edit',
+    data: {
+      commentId: commentId,
+      comment: comment
+    }
+  }).then(function() {
+    $('p[data-commentId=' + commentId + ']').text(comment);
+    $('p[data-commentId=' + commentId + ']').css('display', 'block');
+    $('.modalEditButton[data-commentId=' + commentId + ']').text('Edit');
+    $('.modalDeleteButton[data-commentId=' + commentId + ']').css('display', 'initial');
+    $('#editForm').remove();
+  });
+});
+
 $(document).on('click', '.modalDeleteButton', function() {
   var commentId = $(this).attr('data-commentId');
-  
+
   $.ajax({
     method: 'DELETE',
     url: '/comment/delete',
-    data: {commentId: commentId}
-  }).then(function(){
+    data: { commentId: commentId }
+  }).then(function() {
     $('[data-commentId=' + commentId + ']').remove();
   });
 });
