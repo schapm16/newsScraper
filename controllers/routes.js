@@ -6,13 +6,9 @@ function routes(app) {
   app.get('/', function(req, res) {
     db.Article.find({ saved: false }, function(err, data) {
       if (err) throw err;
-      console.log(data);
       var strandedCommentsArr =[];
       for (var i = 0; i < data.length; i++) {
-        console.log('high iteration');
-        console.log(data[i].comments);
         for (var j = 0; j < data[i].comments.length; j++) {
-          console.log('iteration');
           if(data[i].comments[j]) {
           strandedCommentsArr.push(data[i].comments[j]);
           }
