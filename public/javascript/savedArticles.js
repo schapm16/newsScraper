@@ -71,8 +71,10 @@ $(document).on('click', '#modalSubmitNewComment', function() {
       articleId: articleId,
       comment: newComment
     }
-  }).then(function() {
-      $('#modalComments').append('<p>' + newComment + '</p>');
+  }).then(function(data) {
+      $('#modalComments').prepend('<button class="btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Delete</button>')
+      $('#modalComments').prepend('<button class="btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Edit</button>')
+      $('#modalComments').prepend('<p data-commentId=' + data.comments.slice(-1)[0] + '>' + newComment + '</p>');
   });
   
   $('#modalAddCommentForm').empty();
