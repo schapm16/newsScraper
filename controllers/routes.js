@@ -20,7 +20,10 @@ function routes(app) {
     console.log('Scrape Requested');
     scrape(function(articleContents) {
       db.Article.create(articleContents, function(err) {
-        if (err) throw err;
+        if (err) {
+          if (err.message) console.log(err.message);
+          else throw err;
+        }
       });
     }, function() {
       res.redirect('/article');
