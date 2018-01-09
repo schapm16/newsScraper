@@ -18,15 +18,17 @@ function routes(app) {
 
   app.get('/scrape', function(req, res) {
     console.log('Scrape Requested');
-    scrape(function(articleContents) {
+    scrape(function(articleIndex, lastArticleIndex, articleContents) {
       db.Article.create(articleContents, function(err) {
         if (err) {
           if (err.message) console.log(err.message);
           else throw err;
         }
+        
+        if (articleIndex === lastArticleIndex) {
+          res.redirect('/article');
+        }
       });
-    }, function() {
-      res.redirect('/article');
     });
   });
 
