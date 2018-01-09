@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    {{#each article}}
+    <div class="media">
+      <div class="media-left">
+        <a href="{{articleURL}}"><img class="media-object" src="{{imageURL}}"></a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading"><a href="{{articleURL}}">{{title}}</a></h4>
+        {{summary}}
+        <button class="saveButton btn btn-default btn-sm" data-id="{{_id}}" data-saved="{{saved}}">Save</button>
+        <button class="notesButton btn btn-default btn-sm" data-id="{{_id}}">Notes</button>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+
+
+<div id="notesModal" class="modal fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="media">
+      <div class="media-left">
+        <img id="modalArticleImage" class="media-object" src="">
+      </div>
+      <div class="media-body">
+        <h4 id="modalArticleTitle" class="media-heading"></h4>
+        <p id="modalArticleSummary"></p>
+      </div>
+    </div>
+  </div>
+  
+  <div id="modalComments">
+    
+    
+  </div>
+</div>
