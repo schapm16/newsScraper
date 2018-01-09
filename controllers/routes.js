@@ -48,7 +48,11 @@ function routes(app) {
     db.Article.find({ saved: true }).populate('comments').exec(function(err, data) {
       if (err) throw err;
       console.log("Saved Articles Sent");
-      res.json(data);
+      res.render('savedArticles', {
+        article: data,
+        styleSheet: '/css/savedArticles.css',
+        script: '/javascript/savedArticles.js'
+        });
     });
   });
 
@@ -67,7 +71,7 @@ function routes(app) {
       res.sendStatus(200);
     });
   });
-
+  
   app.post('/comment/add', function(req, res) {
     db.userComment.create({ comment: req.body.comment }, function(err, data) {
       if (err) throw err;

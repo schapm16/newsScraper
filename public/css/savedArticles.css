@@ -1,0 +1,30 @@
+body {
+  background-image: url('../images/news.jpg');
+  background-position: center;
+  background-size: cover;
+  
+  height: 100vh;
+  max-height: 100vh;
+}
+
+a, a:hover, a:active {
+  cursor: pointer;
+  color: black;
+}
+
+.navbar {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.navbar-brand {
+  font-size: 3em;
+}
+
+.panel {
+  width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  
+  max-height: 80vh;
+  overflow-y: auto;
+}
