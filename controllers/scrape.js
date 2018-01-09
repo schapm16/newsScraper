@@ -7,7 +7,7 @@ module.exports = function(cb, cbb) {
     var $ = cheerio.load(body);
     $('#story-list-1 article, #story-list-2 article, #story-list-3 article').each(function(index, element) {
       var title = $(this).find('.title a').text().trim();
-      var summary = $(this).text().trim().split(/\n+/)[2];
+      var summary = $(this).find('.teaser').contents().last().trim();
       var articleURL = $(this).find('.title a').attr('href');
       var imageURL = $(this).find('img').data('proxy-image');
       if (imageURL) {
