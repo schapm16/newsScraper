@@ -81,9 +81,8 @@ $(document).on('click', '#modalSubmitNewComment', function() {
     $('#modalComments').prepend('<button class="modalDeleteButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Delete</button>');
     $('#modalComments').prepend('<button class="modalEditButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Edit</button>');
     $('#modalComments').prepend('<p data-commentId=' + data.comments.slice(-1)[0] + '>' + newComment + '</p>');
+    $('#modalAddCommentForm').empty();
   });
-
-  $('#modalAddCommentForm').empty();
 });
 
 $(document).on('click', '.modalEditButton', function() {

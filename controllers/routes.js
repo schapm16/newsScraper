@@ -4,9 +4,30 @@ var db = require('../models/index.js');
 function routes(app) {
 
   app.get('/', function(req, res) {
-    db.Article.remove({ saved: false }, function(err) {
+    db.Article.find({ saved: false }, function(err, data) {
       if (err) throw err;
-      console.log("Unsaved Articles Removed");
+      console.log(data);
+      var strandedCommentsArr =[];
+      for (var i = 0; i < data.length; i++) {
+        console.log('high iteration');
+        console.log(data[i].comments);
+        for (var j = 0; j < data[i].comments.length; j++) {
+          console.log('iteration');
+          if(data[i].comments[j]) {
+          strandedCommentsArr.push(data[i].comments[j]);
+          }
+        }
+      }
+      console.log(strandedCommentsArr);
+      
+      db.userComment.remove({ _id: {$in: strandedCommentsArr }}, function(err) {
+        if (err) throw err;
+        console.log('Stranded Comments Removed');
+        db.Article.remove({ saved: false }, function(err) {
+          if (err) throw err;
+          console.log("Unsaved Articles Removed");
+        });
+      });
     });
 
     res.render('home', {
