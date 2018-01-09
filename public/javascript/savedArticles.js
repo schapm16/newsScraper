@@ -44,7 +44,8 @@ $(document).on('click', '.notesButton', function() {
     $('#modalArticleImage').attr('src', data[0].imageURL);
     $('#modalArticleTitle').text(data[0].title);
     $('#modalArticleSummary').text(data[0].summary);
-
+    
+    $('#modalComments').empty();
     for (var i = 0; i < data[0].comments.length; i++) {
       $('#modalComments').prepend('<button class="modalDeleteButton btn btn-default" data-commentId=' + data[0].comments[i]._id + '>Delete</button>');
       $('#modalComments').prepend('<button class="modalEditButton btn btn-default" data-commentId=' + data[0].comments[i]._id + '>Edit</button>');
@@ -58,8 +59,13 @@ $(document).on('click', '.notesButton', function() {
 
 
 $('#modalAddComment').click(function() {
+  if ($('#modalAddCommentForm').children().length) {
+    $('#modalAddCommentForm').empty();
+  }
+  else {
     $('#modalAddCommentForm').append('<br><textarea id="modalNewComment" class="form-control">');
     $('#modalAddCommentForm').append('<br><button id="modalSubmitNewComment" class="btn btn-default">Submit</button>');
+  }
 });
 
 $(document).on('click', '#modalSubmitNewComment', function() {
@@ -74,9 +80,9 @@ $(document).on('click', '#modalSubmitNewComment', function() {
       comment: newComment
     }
   }).then(function(data) {
-    $('#modalComments').prepend('<button class="modalDeleteButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0]._id + '>Delete</button>');
-    $('#modalComments').prepend('<button class="modalEditButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0]._id + '>Edit</button>');
-    $('#modalComments').prepend('<p data-commentId=' + data.comments.slice(-1)[0]._id + '>' + newComment + '</p>');
+    $('#modalComments').prepend('<button class="modalDeleteButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Delete</button>');
+    $('#modalComments').prepend('<button class="modalEditButton btn btn-default" data-commentId=' + data.comments.slice(-1)[0] + '>Edit</button>');
+    $('#modalComments').prepend('<p data-commentId=' + data.comments.slice(-1)[0] + '>' + newComment + '</p>');
   });
 
   $('#modalAddCommentForm').empty();
