@@ -31,8 +31,8 @@ mongoose.connect(MONGODB_URI)
 require('./controllers/routes.js')(app);
 
 
-app.listen(8080, function() {
-    console.log('Server listening on Port 8080');
+app.listen(PORT, function() {
+    console.log('Server listening on Port' + PORT);
 });
 
 module.exports = app;
